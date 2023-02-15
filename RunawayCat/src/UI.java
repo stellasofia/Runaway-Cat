@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 
 //USER INTERFACE
 public class UI {
@@ -8,6 +9,7 @@ public class UI {
     public JTextArea dialog;
     public JPanel backgroundPanel[] = new JPanel[10]; //chose 10 to have enough space, if expansion needed.
     public JLabel backgroundLabel[] = new JLabel[10];
+    //public JButton button[] = new JButton[10];
 
     //constructor
     public UI(GameManager gameManager){
@@ -16,7 +18,7 @@ public class UI {
         generateScreen();
         window.setVisible(true);
     }
-    public void createWindow(){ //instantiate Window
+    public void createWindow(){ //instantiate window
         window = new JFrame();
         window.setSize(800,600);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -50,18 +52,24 @@ public class UI {
         backgroundLabel[backgroundNumber].setIcon(backgroundIcon);
     }
 
-    public void createObject(int backgroundNumber, String objectFileName){
-
-        //To create Button: but, because the object is the same size as the background the button is the whole screen
-        /*
-         JButton button = new JButton();
-        button.setBounds(0,0,700,394);
+    public void createInteractionObject(int x, int y, int width, int height,int backgroundNumber, String objectFileName, String actionCommand){
+        JButton button = new JButton();
+        button.setBounds(x,y,width,height);
         ImageIcon objectIcon = new ImageIcon(getClass().getClassLoader().getResource(objectFileName));
+        button.setBackground(null);
+        button.setContentAreaFilled(false);
+        button.setFocusPainted(false);
         button.setIcon(objectIcon);
-         */
+        button.addActionListener(gameManager.aHandler); //TODO: create action taken
+        button.setActionCommand(actionCommand);
+        button.setBorderPainted(false); //to have a clear background
 
-        //TODO: need to change size of objects and add parameter for coordinates
 
+        backgroundPanel[backgroundNumber].add(button); //to show Object
+        backgroundPanel[backgroundNumber].add(backgroundLabel[backgroundNumber]);
+
+    }
+    public void createObject(int backgroundNumber, String objectFileName){
         JLabel objectLabel = new JLabel();
         objectLabel.setBounds(0,0,700,394);//same because I drew everything on the same canvas
         ImageIcon objectIcon = new ImageIcon(getClass().getClassLoader().getResource(objectFileName));
@@ -72,10 +80,23 @@ public class UI {
     }
 
     public void generateScreen(){
-        //SCREEN1
-        createBackground(1, "Background1.PNG");
-        createObject(1,"Money.PNG");
-        createObject(1,"BowlFull.PNG");
+        //SCENE1
+        createBackground(1, "Home.png");
+        createInteractionObject(430,100,20,15,1,"Purse14x10.png", "getPurse");
+        //createObject(1,"BowlFull.PNG");
+        createInteractionObject(270,280, 30,20,1, "changeLocation.png", "goStreet");
+        backgroundPanel[1].add(backgroundLabel[1]);
+
+        //SCENE2
+        createBackground(2,"Street.png");
+        createInteractionObject(310,260, 30,20,2, "changeLocation.png", "goStore");
+        createInteractionObject(400,340, 30,20,2, "changeLocation.png", "goHome");
+        backgroundPanel[2].add(backgroundLabel[2]);
+
+        //SCENE3
+        createBackground(3, "Store.png");
+        createInteractionObject(360,330, 30,20,3, "changeLocation.png", "goStreet");
+        backgroundPanel[3].add(backgroundLabel[3]);
     }
 
 }
