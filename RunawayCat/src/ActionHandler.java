@@ -15,10 +15,15 @@ public class ActionHandler implements ActionListener{
         String object = e.getActionCommand();
         switch (object){
             case "getPurse": gameManager.event.getPurse(); break;
+            case "buyFood": gameManager.event.buyFood(); break;
 
             //CHANGE SCENES
             case "goStreet": gameManager.changeScene.showStreet(); break;
-            case "goHome": gameManager.changeScene.showHome(); break;
+            case "goHome": gameManager.changeScene.showHome();
+            //TODO: DOES NOT WORK! CHANGE: MAKE NEW OBJECT CAT BOWL TO INTERACT WITH!
+            if(gameManager.inventory.hasCatFood == 1){
+                gameManager.event.enterHomeWithFood();
+            } break;
             case "goStore": gameManager.changeScene.showStore(); break;
             default:break;
         }

@@ -8,10 +8,25 @@ public class Event {
 
     //GET ITEMS
     public void getPurse(){
-        gameManager.ui.dialog.setText("I got my purse");
+        if(gameManager.inventory.hasPurse == 0){
+            gameManager.ui.dialog.setText("I got my purse");
+            gameManager.inventory.hasPurse = 1; //TODO: TAKE MONEY NOT PURSE TO AVOID PROBLEMS
+            gameManager.inventory.updateItems();
+        }
+        else {
+            gameManager.ui.dialog.setText("There is nothing inside");
+        }
     }
     public void buyFood(){
-        //todo: usePurse = Purse -1
+        if(gameManager.inventory.hasPurse == 0){
+            gameManager.ui.dialog.setText("I will need some money to buy the cat food.");
+        }
+        else{
+            gameManager.inventory.hasPurse = 0;
+            gameManager.ui.dialog.setText("Got the food.");
+            gameManager.inventory.hasCatFood = 1;
+        }
+        gameManager.inventory.updateItems();
     }
 
     //CHANGE SCREEN
@@ -29,7 +44,9 @@ public class Event {
 
     }
     public void enterHomeWithFood(){
-        //todo: useFood = Food -1
+        gameManager.ui.dialog.setText("I filled the bowl.");
+        gameManager.inventory.hasCatFood = 0;
+        gameManager.inventory.updateItems();
     }
 
     //STREET
