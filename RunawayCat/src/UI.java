@@ -1,13 +1,14 @@
 import javax.swing.*;
 import java.awt.*;
+import java.util.Objects;
 
 //USER INTERFACE
 public class UI {
     GameManager gameManager;
     JFrame window;
     public JTextArea dialog;
-    public JPanel backgroundPanel[] = new JPanel[10]; //chose 10 to have enough space, if expansion needed.
-    public JLabel backgroundLabel[] = new JLabel[10];
+    public JPanel[] backgroundPanel = new JPanel[10]; //chose 10 to have enough space, if expansion needed.
+    public JLabel[] backgroundLabel = new JLabel[10];
 
     //Player UI - Inventory
     JPanel inventoryPanel;
@@ -33,7 +34,7 @@ public class UI {
         window.setResizable(false);
         window.setLocationRelativeTo(null); //to center screen
 
-        dialog = new JTextArea("this is an example dialog");
+        dialog = new JTextArea("I looked through the whole house, but I couldn't find Kitty anywhere!!\nI think she went through the open door.\nLet's go look for her!");
         dialog.setBounds(50,430,700,150);
         dialog.setBackground(Color.black);
         dialog.setForeground(Color.white);
@@ -55,7 +56,7 @@ public class UI {
         backgroundLabel[backgroundNumber] = new JLabel(); //used to display an image
         backgroundLabel[backgroundNumber].setBounds(0,0,700,394);
 
-        ImageIcon backgroundIcon = new ImageIcon(getClass().getClassLoader().getResource(BackgroundFileName));
+        ImageIcon backgroundIcon = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource(BackgroundFileName)));
         backgroundLabel[backgroundNumber].setIcon(backgroundIcon);
     }
 
@@ -63,12 +64,12 @@ public class UI {
     public void createInteractionObject(int x, int y, int width, int height,int backgroundNumber, String objectFileName, String actionCommand){
         JButton button = new JButton();
         button.setBounds(x,y,width,height);
-        ImageIcon objectIcon = new ImageIcon(getClass().getClassLoader().getResource(objectFileName));
+        ImageIcon objectIcon = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource(objectFileName)));
         button.setBackground(null);
         button.setContentAreaFilled(false);
         button.setFocusPainted(false);
         button.setIcon(objectIcon);
-        button.addActionListener(gameManager.aHandler); //TODO: create action taken
+        button.addActionListener(gameManager.aHandler);
         button.setActionCommand(actionCommand);
         button.setBorderPainted(false); //to have a clear background
 
@@ -80,7 +81,7 @@ public class UI {
     public void createObject(int backgroundNumber, String objectFileName){
         JLabel objectLabel = new JLabel();
         objectLabel.setBounds(0,0,700,394);//same because I drew everything on the same canvas
-        ImageIcon objectIcon = new ImageIcon(getClass().getClassLoader().getResource(objectFileName));
+        ImageIcon objectIcon = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource(objectFileName)));
         objectLabel.setIcon(objectIcon);
 
         backgroundPanel[backgroundNumber].add(objectLabel); //to show Object
@@ -97,14 +98,14 @@ public class UI {
 
         //CREATE ITEMS FOR PLAYER INVENTORY
         purseLabel = new JLabel();
-        ImageIcon purseIcon = new ImageIcon(getClass().getClassLoader().getResource("Purse14x10.png"));
+        ImageIcon purseIcon = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("Purse14x10.png")));
         Image image = purseIcon.getImage().getScaledInstance(35,25,Image.SCALE_DEFAULT);
         purseIcon = new ImageIcon(image);
         purseLabel.setIcon(purseIcon);
         inventoryPanel.add(purseLabel);
 
         catFoodLabel = new JLabel();
-        ImageIcon catFoodIcon = new ImageIcon(getClass().getClassLoader().getResource("FishIcon.png"));
+        ImageIcon catFoodIcon = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("FishIcon.png")));
         image = catFoodIcon.getImage().getScaledInstance(35,25,Image.SCALE_DEFAULT);
         catFoodIcon = new ImageIcon(image);
         catFoodLabel.setIcon(catFoodIcon);
@@ -118,6 +119,7 @@ public class UI {
         createInteractionObject(430,100,20,15,1,"Purse14x10.png", "getPurse");
         //createObject(1,"BowlFull.PNG");
         createInteractionObject(270,280, 30,20,1, "changeLocation.png", "goStreet");
+        createInteractionObject(420,300, 80,80,1, "Blank.png", "foodBowl");
         backgroundPanel[1].add(backgroundLabel[1]);
 
         //SCENE2
@@ -129,7 +131,6 @@ public class UI {
         //SCENE3
         createBackground(3, "Store.png");
         createInteractionObject(360,330, 30,20,3, "changeLocation.png", "goStreet");
-        createInteractionObject(410,20,80,80,3,"FishIcon.png", "buyFood");
         backgroundPanel[3].add(backgroundLabel[3]);
     }
 

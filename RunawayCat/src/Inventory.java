@@ -18,18 +18,8 @@ public class Inventory {
     //UPDATE INFO
     public void updateItems(){
         //CHECK ITEMS
-        if(hasPurse == 0){
-            gameManager.ui.purseLabel.setVisible(false);
-        }
-        else {
-            gameManager.ui.purseLabel.setVisible(true);
-        }
-        if(hasCatFood == 0){
-            gameManager.ui.catFoodLabel.setVisible(false);
-        }
-        else {
-            gameManager.ui.catFoodLabel.setVisible(true);
-        }
+        gameManager.ui.purseLabel.setVisible(hasPurse != 0);
+        gameManager.ui.catFoodLabel.setVisible(hasCatFood != 0);
 
     }
 
